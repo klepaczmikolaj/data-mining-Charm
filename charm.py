@@ -1,6 +1,7 @@
 import json
 from copy import copy, deepcopy
 import pandas as pd
+import time
 
 
 class DataPreparation:
@@ -21,7 +22,7 @@ class DataPreparation:
         df = pd.DataFrame(self.transactional)
         self.itemsGrouped = df.groupby(['item'])['tid'].apply(list)
         self.itemsGrouped = pd.DataFrame({'item': self.itemsGrouped.index, 'tid': self.itemsGrouped.values})
-        self.itemsGrouped['item'] = self.itemsGrouped['item'].apply(set)
+        self.itemsGrouped['item'] = self.itemsGrouped['item'].apply(lambda x: {x})
 
     def get_frequent_items(self, min_sup):
         return self.itemsGrouped[self.itemsGrouped['tid'].map(len) >= min_sup * self.tid_count]
@@ -29,7 +30,7 @@ class DataPreparation:
 
 class CharmAlgorithm:
     def __init__(self, min_sup_config, tid_count):
-        self.result = pd.DataFrame(columns=['item', 'tid'])
+        self.result = pd.DataFrame(columns=['item', 'tid', 'support'])
         self.min_sup = min_sup_config * tid_count
 
     @staticmethod
@@ -88,26 +89,32 @@ class CharmAlgorithm:
             # check if item subsumed
             is_subsumption = False
             for index, row in self.result.iterrows():
-                if item.issubset(row['item']) and set(row['tid']) == set(tid):
+                if row1['item'].issubset(row['item']) and set(row['tid']) == set(row1['tid']):
                     is_subsumption = True
                     break
             # append to result if element not subsumed
             if not is_subsumption:
-                self.result = self.result.append({'item': item, 'tid': tid}, ignore_index=True)
+                self.result = self.result.append({'item': row1['item'], 'tid': row1['tid'], 'support': len(row1['tid'])}, ignore_index=True)
 
 
 if __name__ == '__main__':
+    start = time.time()
+
+    # preparation
     with open('config.json', 'r') as config_file:
         config = json.load(config_file)
-
     data = DataPreparation()
     data.import_data(config['file_name'])
     data.transform_data()
     freq = data.get_frequent_items(config['min_sup'])
 
-    print(freq)
-
+    # algorithm
     algorithm = CharmAlgorithm(config['min_sup'], data.tid_count)
     algorithm.charm_extend(freq)
 
-    print(algorithm.result)
+    # sort and write to file
+    algorithm.result['item'] = algorithm.result['item'].apply(lambda x: sorted(map(int, x)))
+    algorithm.result.to_csv('result.txt', sep='\t', columns=['item', 'support'])
+
+    end = time.time()
+    print(end - start)
