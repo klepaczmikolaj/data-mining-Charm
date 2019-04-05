@@ -2,6 +2,7 @@ import json
 from copy import copy, deepcopy
 import pandas as pd
 import time
+import argparse
 
 
 class DataPreparation:
@@ -96,25 +97,40 @@ class CharmAlgorithm:
             if not is_subsumption:
                 self.result = self.result.append({'item': row1['item'], 'tid': row1['tid'], 'support': len(row1['tid'])}, ignore_index=True)
 
+    def write_result_to_file(self, result_file):
+        self.result.to_csv(result_file, sep='\t', columns=['item', 'support'], index=False)
+
+    def write_result_to_smfl_format(self, result_file):
+        self.result['item'] = self.result['item'].apply(lambda x: sorted(map(int, x)))
+        self.result.to_csv(result_file, sep='\t', columns=['item', 'support'], index=False, header=False)
+
 
 if __name__ == '__main__':
     start = time.time()
 
+    # parse args
+    parser = argparse.ArgumentParser(description='Generate closed frequent itemsets')
+    parser.add_argument('-f', '--filename', help="Name of the file with data for itemset generation", required=True)
+    parser.add_argument('-s', '--support', help="Minimum support for frequent itemsets", required=True, type=float)
+    parser.add_argument('--output', help="Output file name", required=False, default='output.txt')
+    parser.add_argument('--spmf-format', help="Specify output file format as SPMF", required=False, action='store_true')
+    args = parser.parse_args()
+
     # preparation
-    with open('config.json', 'r') as config_file:
-        config = json.load(config_file)
     data = DataPreparation()
-    data.import_data(config['file_name'])
+    data.import_data(args.filename)
     data.transform_data()
-    freq = data.get_frequent_items(config['min_sup'])
+    freq = data.get_frequent_items(args.support)
 
     # algorithm
-    algorithm = CharmAlgorithm(config['min_sup'], data.tid_count)
+    algorithm = CharmAlgorithm(args.support, data.tid_count)
     algorithm.charm_extend(freq)
 
-    # sort and write to file
-    algorithm.result['item'] = algorithm.result['item'].apply(lambda x: sorted(map(int, x)))
-    algorithm.result.to_csv('result.txt', sep='\t', columns=['item', 'support'])
+    # write to file
+    if args.spmf_format:
+        algorithm.write_result_to_smfl_format(args.output)
+    else:
+        algorithm.write_result_to_file(args.output)
 
     end = time.time()
-    print(end - start)
+    print('elapsed time: ' + str(end - start) + 'seconds')
