@@ -36,64 +36,66 @@ class CharmAlgorithm:
 
     @staticmethod
     def replace_values(df, column, find, replace):
-        for row in df.itertuples():
+        for index, row in df.iterrows():
             if find <= row[column]:
                 row[column].update(replace)
 
     def charm_property(self, row1, row2, items, new_item, new_tid):
         if len(new_tid) >= self.min_sup:
-            if set(row1[2]) == set(row2[2]):
-                # remove row2[1] from items
-                items = items[items['item'] != row2[1]]
-                # replace all row1[1] with new_item
-                find = copy(row1[1])
-                self.replace_values(items, 1, find, new_item)
-                self.replace_values(self.items_tmp, 1, find, new_item)
-            elif set(row1[2]).issubset(set(row2[2])):
-                # replace all row1[1] with new_item
-                find = copy(row1[1])
-                self.replace_values(items, 1, find, new_item)
-                self.replace_values(self.items_tmp, 1, find, new_item)
-            elif set(row2[2]).issubset(set(row1[2])):
-                # remove row2[1] from items
-                items = items[items['item'] != row2[1]]
+            if set(row1['tid']) == set(row2['tid']):
+                # remove row2['item'] from items
+                items = items[items['item'] != row2['item']]
+                # replace all row1['item'] with new_item
+                find = copy(row1['item'])
+                self.replace_values(items, 'item', find, new_item)
+                self.replace_values(self.items_tmp, 'item', find, new_item)
+            elif set(row1['tid']).issubset(set(row2['tid'])):
+                # replace all row1['item'] with new_item
+                find = copy(row1['item'])
+                self.replace_values(items, 'item', find, new_item)
+                self.replace_values(self.items_tmp, 'item', find, new_item)
+            elif set(row2['tid']).issubset(set(row1['tid'])):
+                # remove row2['item'] from items
+                items = items[items['item'] != row2['item']]
                 # add {item, tid} to self.items_tmp
                 self.items_tmp = self.items_tmp.append({'item': new_item, 'tid': new_tid}, ignore_index=True)
                 # sort items by ascending support
-                # s = self.items_tmp.tid.str.len().sort_values().index
-                # self.items_tmp = self.items_tmp.reindex(s).reset_index(drop=True)
-            elif set(row1[2]) != set(row2[2]):
+                s = self.items_tmp.tid.str.len().sort_values().index
+                self.items_tmp = self.items_tmp.reindex(s).reset_index(drop=True)
+            elif set(row1['tid']) != set(row2['tid']):
                 # add {item, tid} to self.items_tmp
                 self.items_tmp = self.items_tmp.append({'item': new_item, 'tid': new_tid}, ignore_index=True)
                 # sort items by ascending support
-                # s = self.items_tmp.tid.str.len().sort_values().index
-                # self.items_tmp = self.items_tmp.reindex(s).reset_index(drop=True)
+                s = self.items_tmp.tid.str.len().sort_values().index
+                self.items_tmp = self.items_tmp.reindex(s).reset_index(drop=True)
 
     def charm_extend(self, items_grouped):
         # sort items by ascending support
         s = items_grouped.tid.str.len().sort_values().index
         items_grouped = items_grouped.reindex(s).reset_index(drop=True)
 
-        for row1 in items_grouped.itertuples():
+        for index_1, row1 in items_grouped.iterrows():
             self.items_tmp = pd.DataFrame(columns=['item', 'tid'])
-            for row2 in items_grouped.itertuples():
-                if row2[0] >= row1[0]:
+            item = set()
+            tid = list()
+            for index_2, row2 in items_grouped.iterrows():
+                if index_2 >= index_1:
                     item = set()
-                    item.update(row1[1])
-                    item.update(row2[1])
-                    tid = list(set(row1[2]) & set(row2[2]))
+                    item.update(row1['item'])
+                    item.update(row2['item'])
+                    tid = list(set(row1['tid']) & set(row2['tid']))
                     self.charm_property(row1, row2, items_grouped, item, tid)
             if not self.items_tmp.empty:
                 self.charm_extend(self.items_tmp)
             # check if item subsumed
             is_subsumption = False
-            for row in self.result.itertuples():
-                if row1[1].issubset(row[1]) and set(row[2]) == set(row1[2]):
+            for index, row in self.result.iterrows():
+                if row1['item'].issubset(row['item']) and set(row['tid']) == set(row1['tid']):
                     is_subsumption = True
                     break
             # append to result if element not subsumed
             if not is_subsumption:
-                self.result = self.result.append({'item': row1[1], 'tid': row1[2], 'support': len(row1[2])}, ignore_index=True)
+                self.result = self.result.append({'item': row1['item'], 'tid': row1['tid'], 'support': len(row1['tid'])}, ignore_index=True)
 
     def write_result_to_file(self, result_file):
         self.result.to_csv(result_file, sep='\t', columns=['item', 'support'], index=False)
