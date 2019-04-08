@@ -28,12 +28,6 @@ if [[ ! -e spmf.jar ]]; then
     wget http://www.philippe-fournier-viger.com/spmf/spmf.jar >> ${logfile}
 fi
 
-echo "checking python requirements"
-if ! python3 -c `cat requirements.txt` &> /dev/null; then
-    echo "Installing python requirements"
-    python3 -m pip install -r requirements.txt >> ${logfile}
-fi
-
 rm -f ${result_dir}/*
 mkdir -p ${result_dir}
 
