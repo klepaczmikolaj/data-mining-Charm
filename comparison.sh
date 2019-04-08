@@ -29,7 +29,7 @@ if [[ ! -e spmf.jar ]]; then
 fi
 
 echo "checking python requirements"
-if python3 -c "requirements.txt" &> /dev/null; then
+if ! python3 -c `cat requirements.txt` &> /dev/null; then
     echo "Installing python requirements"
     python3 -m pip install -r requirements.txt >> ${logfile}
 fi
