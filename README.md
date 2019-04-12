@@ -5,9 +5,9 @@ This project provides the implementation of CHARM algorithm for mining closed fr
 * [General information](#General-information)
 * [Setup](#Setup)  
 * [Usage](#Usage)  
-* [Implementation details](Implementation-details)
-* [Quality evaluation](Quality-evaluation)
-* [Performance evaluation](Performance-evaluation)
+* [Implementation details](#Implementation-details)
+* [Quality evaluation](#Quality-evaluation)
+* [Performance evaluation](#Performance-evaluation)
 
 ## General information
 The algorithm itself is implemented in Python 3.6 using Numpy library for DataFrame operations. Main script **charm.py** provides the algorithm functionality which is getting closed frequent sets given the input set of transactions. The script expects two required command line arguments:
