@@ -1,10 +1,13 @@
-# data mining Charm
-This project provides the implementation of CHARM algorithm for mining closed frequent sets. 
+# Data Mining CHARM
+This project provides the implementation of CHARM algorithm for mining closed frequent sets. Implementation based on the scientific paper: [**CHARM: An Efficient Algorithm for Closed Itemset Mining Mohammed** J. Zaki Ching-Jui Hsiao](https://pdfs.semanticscholar.org/fc59/bb528815efc84c2a08a3ad09f9ced8cc7508.pdf)
 
 ## Table of contents
+* [General information](#General-information)
 * [Setup](#Setup)  
 * [Usage](#Usage)  
-* [Intro](#Introduction)
+* [Implementation details](Implementation-details)
+* [Quality evaluation](Quality-evaluation)
+* [Performance evaluation](Performance-evaluation)
 
 ## General information
 The algorithm itself is implemented in Python 3.6 using Numpy library for DataFrame operations. Main script **charm.py** provides the algorithm functionality which is getting closed frequent sets given the input set of transactions. The script expects two required command line arguments:
@@ -14,7 +17,7 @@ The algorithm itself is implemented in Python 3.6 using Numpy library for DataFr
 See [Usage](#Usage) section for detailed script usage.  
 
 ### Input file
-Input file should be a space seperated set of transactions, each line corresponds to one transaction and each set of characters between spaces is considred as an item.  
+Input file should be a space separated set of transactions, each line corresponds to one transaction and each set of characters between spaces is considered as an item.  
 Example input files: 
 ```
 ab#$ ad cd asd
@@ -46,7 +49,7 @@ item    support
 {'25', '34', '17', '9', '1', '11', '21', '29', '7', '15', '5', '36', '40', '27'}        101
 {'25', '34', '17', '9', '1', '11', '21', '29', '15', '5', '36', '40', '27'}     102
 ```
-* **spmf format**, which is similar to standard, but without column headers and with **sorted** list of items, it is especially useful during algorithm [Quality evaluation](#Quality-evaluation)
+* **spmf format**, which is similar to standard, but without column headers and with **sorted** list of items, it is especially useful during algorithm [quality evaluation](#Quality-evaluation) when comparing with java [spmf library for data mining](http://www.philippe-fournier-viger.com/spmf/index.php)
 ```
 [1, 5, 7, 9, 13, 21, 25, 27, 29, 34, 36, 40]    114
 [1, 5, 7, 13, 21, 25, 27, 29, 34, 36]   115
@@ -82,7 +85,9 @@ Example:
 python3 charm.py -f test_data/contextPFPM.txt -s 0.5 --spmf-format --output out_file_PFPM.txt
 ```
 
-## Implementation details
-
-## Quality evaluation
-dasd 
+## Implementation details  
+Text here
+## Quality evaluation  
+Text here
+## Performance evaluation  
+Text here
