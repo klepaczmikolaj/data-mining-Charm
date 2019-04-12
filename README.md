@@ -2,9 +2,9 @@
 Inplementation of CLOSET algorithm for mining closed frequent sets
 
 ## Table of contents
-[Setup](#Setup)  
-[Usage](#Usage)  
-[Intro](#intro)
+* [Setup](#Setup)  
+* [Usage](#Usage)  
+* [Intro](#Introduction)
 
 ## Setup
 The only requirement for the library is python3 with modules specified in requirements.txt file.  
@@ -33,5 +33,4 @@ Example:
 ```
 python3 charm.py -f test_data/contextPFPM.txt -s 0.5 --spmf-format --output out_file_PFPM.txt
 ```
-<a name="intro"/>
-## Intro
+## Introduction
