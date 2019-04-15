@@ -110,7 +110,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate closed frequent itemsets')
     parser.add_argument('-f', '--filename', help="Name of the file with data for itemset generation", required=True)
     parser.add_argument('-s', '--support', help="Minimum support for frequent itemsets", required=True, type=float)
-    parser.add_argument('--output', help="Output file name", required=False, default='output.txt')
+    parser.add_argument('--output', help="Output file name, default: output.txt", required=False, default='output.txt')
     parser.add_argument('--spmf-format', help="Specify output file format as SPMF", required=False, action='store_true')
     args = parser.parse_args()
 
