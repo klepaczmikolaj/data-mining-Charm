@@ -122,5 +122,38 @@ OK Python and SPMF outputs match for tennis.txt input file
 
 ## Performance evaluation  
 The execution time and closed itemsets statistics are redirected to **execution.log** file.  
+The most significant difference in performance occurs when the number of found itemsets is considerably large, e.g for 3196 transactions and 2738 frequent itemsets, python implementation is 372 times slower, whereas for 88162 transactions and only one itemset found, python implementation is only 2 times slower than spmf.  
 Performance results for different size of input files are presented below:  
 
+File: test_data/chess_trimmed.txt
+Python elapsed time: 90087 ms, Java elapsed time ~ 242 ms
+Transactions count: 3196, Frequent closed itemsets count : 2738
+===================================================
+File: test_data/contextPFPM.txt
+Python elapsed time: 116 ms, Java elapsed time ~ 10 ms
+Transactions count: 7, Frequent closed itemsets count : 4
+===================================================
+File: test_data/data1.txt
+Python elapsed time: 201 ms, Java elapsed time ~ 15 ms
+Transactions count: 6, Frequent closed itemsets count : 7
+===================================================
+File: test_data/retail.txt
+Python elapsed time: 6947 ms, Java elapsed time ~ 3459 ms
+Transactions count: 88162, Frequent closed itemsets count : 1
+===================================================
+File: test_data/chess_trimmed_more.txt
+Python elapsed time: 3298 ms, Java elapsed time ~ 32 ms
+Transactions count: 200, Frequent closed itemsets count : 107
+===================================================
+File: test_data/contextRelim.txt
+Python elapsed time: 79 ms, Java elapsed time ~ 12 ms
+Transactions count: 10, Frequent closed itemsets count : 3
+===================================================
+File: test_data/mushroom.txt
+Python elapsed time: 2095 ms, Java elapsed time ~ 131 ms
+Transactions count: 8124, Frequent closed itemsets count : 45
+===================================================
+File: test_data/tennis.txt
+Python elapsed time: 103 ms, Java elapsed time ~ 7 ms
+Transactions count: 14, Frequent closed itemsets count : 4
+===================================================
