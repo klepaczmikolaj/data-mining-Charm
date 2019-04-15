@@ -86,7 +86,14 @@ python3 charm.py -f test_data/contextPFPM.txt -s 0.5 --spmf-format --output out_
 ```
 
 ## Implementation details  
-Text here
+The charm.py script contains two classes: **DataPreparation** and **CharmAlgorithm**.  
+**DataPreparation** class has three methods:
+* `import_data(self, filename)` - imports input data and writes it in a transactional form, as a list of tuples: {'tid': tid, 'item':    element}
+* `transform_data(self)` - generates list of transactions for each element in the input data and writes to dataframe
+* `get_frequent_items(self, min_sup)` - returns dataframe with all one-element itemsets with relative_support => min_sup
+**CharmAlgorithm** class contains implementation of the Charm algorithm. It has two main methods containing algorithm logic:
+* `charm_extend(self, items_grouped)` - main algorithm responsible for finding closed itemsets (stored in `self.result` dataframe), it considers each combination of itemset-transaction_id pairs appearing in **items_grouped** input dataframe
+* `charm_property(self, row1, row2, items, new_item, new_tid)` - applies one of the four properties on two given itemset-transaction_id-pairs, properties explained in the (paper)[https://pdfs.semanticscholar.org/fc59/bb528815efc84c2a08a3ad09f9ced8cc7508.pdf] 
 ## Quality evaluation  
 Text here
 ## Performance evaluation  
