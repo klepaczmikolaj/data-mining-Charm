@@ -90,11 +90,37 @@ The charm.py script contains two classes: **DataPreparation** and **CharmAlgorit
 **DataPreparation** class has three methods:
 * `import_data(self, filename)` - imports input data and writes it in a transactional form, as a list of tuples: {'tid': tid, 'item':    element}
 * `transform_data(self)` - generates list of transactions for each element in the input data and writes to dataframe
-* `get_frequent_items(self, min_sup)` - returns dataframe with all one-element itemsets with relative_support => min_sup
+* `get_frequent_items(self, min_sup)` - returns dataframe with all one-element itemsets with relative_support => min_sup  
 **CharmAlgorithm** class contains implementation of the Charm algorithm. It has two main methods containing algorithm logic:
-* `charm_extend(self, items_grouped)` - main algorithm responsible for finding closed itemsets (stored in `self.result` dataframe), it considers each combination of itemset-transaction_id pairs appearing in **items_grouped** input dataframe
-* `charm_property(self, row1, row2, items, new_item, new_tid)` - applies one of the four properties on two given itemset-transaction_id-pairs, properties explained in the (paper)[https://pdfs.semanticscholar.org/fc59/bb528815efc84c2a08a3ad09f9ced8cc7508.pdf] 
+* `charm_extend(self, items_grouped)` - main algorithm responsible for finding closed itemsets, output is stored in `self.result` dataframe, the method considers each combination of itemset-transaction_id pairs appearing in **items_grouped** input dataframe and executes `charm_property()` method
+* `charm_property(self, row1, row2, items, new_item, new_tid)` - applies one of the four properties on two given itemset-transaction_id-pairs, properties explained in the [paper](https://pdfs.semanticscholar.org/fc59/bb528815efc84c2a08a3ad09f9ced8cc7508.pdf) 
 ## Quality evaluation  
-Text here
+Corectness of the implementation is validated by comparing the output of charm.py script for [test_data](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/test_data) with output of **spmf data mining library** for the same test data. [spmf library for data mining](http://www.philippe-fournier-viger.com/spmf/index.php) is a java library specialized in pattern mining. It provides implementation of many data mining algorithms incuding the **Charm** algorithm which will be used in the output data comparison.  
+`comparison.sh` is a dedicated shell script for charm.py script validation by comparing its output to spmf library output.  
+The script requires Java 1.7 (necessary for spmf) and python 3.6 with requirements.txt installed.  
+### Script usage
+./comparison.sh [list of files from **test_data** directory for the comparison]  
+If any specified file is not in test_data/ directory, the script terminates.  
+```
+chmod +x comparison.sh
+./comparison.sh mushroom.txt retail.txt data1.txt
+```
+### Results for test data
+charm.py script validation was conducted on all test files in [test_data](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/test_data) directory. Results from python script exactly match the results obtained from spmf library, which confirms the corectness of python implementation.  
+*Part of script output for test data*
+```
+Comparing algorithms output
+OK Python and SPMF outputs match for chess_trimmed.txt input file
+OK Python and SPMF outputs match for contextPFPM.txt input file
+OK Python and SPMF outputs match for data1.txt input file
+OK Python and SPMF outputs match for retail.txt input file
+OK Python and SPMF outputs match for chess_trimmed_more.txt input file
+OK Python and SPMF outputs match for contextRelim.txt input file
+OK Python and SPMF outputs match for mushroom.txt input file
+OK Python and SPMF outputs match for tennis.txt input file
+```
+
 ## Performance evaluation  
-Text here
+The execution time and closed itemsets statistics are redirected to **execution.log** file.  
+Performance results for different size of input files are presented below:  
+
