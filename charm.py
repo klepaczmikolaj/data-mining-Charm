@@ -1,5 +1,4 @@
-import json
-from copy import copy, deepcopy
+from copy import copy
 import pandas as pd
 import time
 import argparse
@@ -133,4 +132,4 @@ if __name__ == '__main__':
     end = time.time()
     print("##############################################################")
     print('File: ' + args.filename)
-    print('Python elapsed time: ' + str(round((end - start), 3)) + ' s')
+    print('Python elapsed time: ' + str(round((end - start), 3) * 1000) + ' ms')
