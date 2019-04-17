@@ -158,3 +158,6 @@ File: test_data/tennis.txt
 Python elapsed time: 103 ms, Java elapsed time ~ 7 ms
 Transactions count: 14, Frequent closed itemsets count : 4
 ```
+
+### todo
+czas długość ilość wykresy, wielowątkowość algorytmu, możliwe podejścia, co wprowadzić żeby nie zepsuło jakości wynikówne 
