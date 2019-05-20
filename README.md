@@ -163,4 +163,7 @@ Experiments for different transactions number and items in a single transaction 
 [Accidents](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/test_data/accidents_trimmed.txt) dataset was used for the experiments.  
 ![items](https://github.com/klepaczmikolaj/data-mining-Charm/blob/master/pictures/items.png)
 
-![trans](https://github.com/klepaczmikolaj/data-mining-Charm/blob/master/pictures/trans.png)
+![trans](https://github.com/klepaczmikolaj/data-mining-Charm/blob/master/pictures/trans.png)  
+
+Execution time grows exponentially, increasing item count in a transaction.  
+For transactions count increase, execution time growth is close to linear.
