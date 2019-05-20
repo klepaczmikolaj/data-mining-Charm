@@ -158,3 +158,7 @@ File: test_data/tennis.txt
 Python elapsed time: 103 ms, Java elapsed time ~ 7 ms
 Transactions count: 14, Frequent closed itemsets count : 4
 ```
+
+Experiments for different transactions number and items in a single transaction number were conducted.
+[Accidents](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/test_data/accidents_trimmed.txt) dataset was used for the experiments.
+
