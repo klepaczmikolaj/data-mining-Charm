@@ -161,4 +161,6 @@ Transactions count: 14, Frequent closed itemsets count : 4
 
 Experiments for different transactions number and items in a single transaction number were conducted.
 [Accidents](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/test_data/accidents_trimmed.txt) dataset was used for the experiments.
+![items](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/pictures/items.png)
 
+![trans](https://github.com/klepaczmikolaj/data-mining-Charm/tree/master/pictures/trans.png)
