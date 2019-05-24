@@ -165,5 +165,8 @@ Experiments for different transactions number and items in a single transaction 
 
 ![trans](https://github.com/klepaczmikolaj/data-mining-Charm/blob/master/pictures/trans.png)  
 
+![sup](https://github.com/klepaczmikolaj/data-mining-Charm/blob/master/pictures/sup.png)  
+
 Execution time grows exponentially, increasing item count in a transaction.  
-For transactions count increase, execution time growth is close to linear.
+For transactions count increase, execution time growth is close to linear.  
+Execution time decreases exponentially, increasing minimum support value.
